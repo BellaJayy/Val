@@ -9,9 +9,9 @@
   <style>   body {
       font-family: 'Arial', sans-serif;
       background-image: url('https://i.pinimg.com/736x/70/15/eb/7015ebe75687ff7886064edf375d093f.jpg');
-      background-size: cover; /* Ensure the image covers the full page */
-      background-position: center center; /* Center the image */
-      background-repeat: no-repeat; /* Prevent image from repeating */
+      background-size: cover; 
+      background-position: center center;
+      background-repeat: no-repeat; 
       color: white;
       display: flex;
       justify-content: center;
@@ -21,7 +21,7 @@
     }
     @media (max-width: 1024px) {
   body {
-    background-size: contain; /* Make the image smaller and fit within the container */
+    background-size: contain; 
   }
 }
     .valentine-container {
@@ -107,22 +107,22 @@
 <body>
   <div id="app">
     <div class="valentine-container">
-      <!-- First Page -->
+
       <div v-if="currentPage === 1" class="page">
-        <h1>Hi Kamal,</h1>
+        <h1>Hi Baby,</h1>
         <p>Would you like to know what question your partner has for you today?</p>
         <button @click="goToNextPage">Yes</button>
         <button @click="endProgram">No</button>
       </div>
 
-      <!-- Second Page -->
+
       <div v-if="currentPage === 2" class="page">
         <h1>Would you be my Valentine?</h1>
         <button @click="handleYes">Yes</button>
         <button @click="handleNo">No</button>
       </div>
 
-      <!-- Thank You Page -->
+
       <div v-if="currentPage === 3" class="thank-you-page">
         <p>Thank you for saying yes! I couldn’t imagine anyone else being my Valentine.</p>
       </div>
@@ -134,7 +134,7 @@
         <button @click="returnToSecondPage">No</button>
       </div>
 
-      <!-- Sad Face Popover -->
+   
       <div v-if="showSadPopover" class="popover sad-popover">
         <p>😢</p>
         <p>Thank you for your time.</p>
@@ -148,42 +148,42 @@
     createApp({
       data() {
         return {
-          currentPage: 1, // Tracks the current page
-          showPopover: false, // Controls the popover visibility
-          showSadPopover: false // Controls the sad face popover visibility
+          currentPage: 1, 
+          showPopover: false, 
+          showSadPopover: false 
         };
       },
       methods: {
-        // Go to the next page
+   
         goToNextPage() {
           this.currentPage = 2;
         },
-        // End the program
+
         endProgram() {
           alert('Ok, thanks for your time!');
         },
-        // Handle "Yes" on the second page
+      
         handleYes() {
           this.showPopover = false;
           this.showSadPopover = false;
           this.fireConfetti();
           this.currentPage = 3; // Navigate to the thank-you page
         },
-        // Handle "No" on the second page
+   
         handleNo() {
           this.showPopover = true;
         },
-        // Handle "Yes" on the "Are you sure?" popover
+       
         handleSadYes() {
           this.showPopover = false;
           this.showSadPopover = true; // Show the sad face popover
         },
-        // Return to the second page
+      
         returnToSecondPage() {
           this.showPopover = false;
           this.currentPage = 2;
         },
-        // Fire confetti
+   
         fireConfetti() {
           confetti({
             particleCount: 100,
