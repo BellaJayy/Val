@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine's App</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>   body {
+      font-family: 'Arial', sans-serif;
+      background-image: url('https://i.pinimg.com/736x/70/15/eb/7015ebe75687ff7886064edf375d093f.jpg');
+      background-size: cover; /* Ensure the image covers the full page */
+      background-position: center center; /* Center the image */
+      background-repeat: no-repeat; /* Prevent image from repeating */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    @media (max-width: 1024px) {
+  body {
+    background-size: contain; /* Make the image smaller and fit within the container */
+  }
+}
+    .valentine-container {
+      text-align: center;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: white;
+      color: #ff7eb9;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #ffe6f0;
+    }
+
+    .popover {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      color: #ff7eb9;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .popover button {
+      background: #ff7eb9;
+      color: white;
+    }
+
+    .popover button:hover {
+      background: #ff758c;
+    }
+
+    .thank-you-page {
+      background: white;
+      color: #ff7eb9;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      font-size: 1.2rem;
+      max-width: 300px;
+    }
+
+    .thank-you-page p {
+      margin: 0;
+    }
+
+    .sad-popover {
+      background: white;
+      color: #ff7eb9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .sad-popover p {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="valentine-container">
+      <!-- First Page -->
+      <div v-if="currentPage === 1" class="page">
+        <h1>Hi Kamal,</h1>
+        <p>Would you like to know what question your partner has for you today?</p>
+        <button @click="goToNextPage">Yes</button>
+        <button @click="endProgram">No</button>
+      </div>
+
+      <!-- Second Page -->
+      <div v-if="currentPage === 2" class="page">
+        <h1>Would you be my Valentine?</h1>
+        <button @click="handleYes">Yes</button>
+        <button @click="handleNo">No</button>
+      </div>
+
+      <!-- Thank You Page -->
+      <div v-if="currentPage === 3" class="thank-you-page">
+        <p>Thank you for saying yes! I couldn’t imagine anyone else being my Valentine.</p>
+      </div>
+
+      <!-- Popover for No -->
+      <div v-if="showPopover" class="popover">
+        <p>Are you sure? 😢</p>
+        <button @click="handleSadYes">Yes</button>
+        <button @click="returnToSecondPage">No</button>
+      </div>
+
+      <!-- Sad Face Popover -->
+      <div v-if="showSadPopover" class="popover sad-popover">
+        <p>😢</p>
+        <p>Thank you for your time.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          currentPage: 1, // Tracks the current page
+          showPopover: false, // Controls the popover visibility
+          showSadPopover: false // Controls the sad face popover visibility
+        };
+      },
+      methods: {
+        // Go to the next page
+        goToNextPage() {
+          this.currentPage = 2;
+        },
+        // End the program
+        endProgram() {
+          alert('Ok, thanks for your time!');
+        },
+        // Handle "Yes" on the second page
+        handleYes() {
+          this.showPopover = false;
+          this.showSadPopover = false;
+          this.fireConfetti();
+          this.currentPage = 3; // Navigate to the thank-you page
+        },
+        // Handle "No" on the second page
+        handleNo() {
+          this.showPopover = true;
+        },
+        // Handle "Yes" on the "Are you sure?" popover
+        handleSadYes() {
+          this.showPopover = false;
+          this.showSadPopover = true; // Show the sad face popover
+        },
+        // Return to the second page
+        returnToSecondPage() {
+          this.showPopover = false;
+          this.currentPage = 2;
+        },
+        // Fire confetti
+        fireConfetti() {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
+
